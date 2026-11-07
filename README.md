@@ -1,7 +1,8 @@
 # opencode-container
 
 A Fedora-based container that runs `opencode serve` as a long-lived service,
-meant to be run as a user service with a persistent home volume.
+with a working podman inside so the agent can start containers of its own.
+Meant to be run as a user service with a persistent home volume.
 
 ## Run
 
@@ -47,12 +48,11 @@ then execs the server. A failing hook aborts the container. The bundled ones:
 
 ## Nested podman
 
-The image ships podman so the agent can run containers of its own. Inner
-containers run in the outer namespaces (`netns`/`userns`/`ipcns`/`utsns`/
-`cgroupns` host, cgroups disabled, `crun`) through the bundled
-`/etc/containers/containers.conf`, which is why `--device /dev/fuse`, the
-`/var/tmp` volume and `--security-opt label=disable` are all required — SELinux
-policy denies nested container operations.
+The bundled `/etc/containers/containers.conf` runs inner containers in the
+outer namespaces (`netns`/`userns`/`ipcns`/`utsns`/`cgroupns` host, cgroups
+disabled, `crun`), which is why `--device /dev/fuse`, the `/var/tmp` volume and
+`--security-opt label=disable` are all required — SELinux policy denies nested
+container operations.
 
 Approach and much of the reasoning come from [Podman inside a
 container](https://www.redhat.com/en/blog/podman-inside-container) and
