@@ -52,8 +52,7 @@ containers run in the outer namespaces (`netns`/`userns`/`ipcns`/`utsns`/
 `cgroupns` host, cgroups disabled, `crun`) through the bundled
 `/etc/containers/containers.conf`, which is why `--device /dev/fuse`, the
 `/var/tmp` volume and `--security-opt label=disable` are all required — SELinux
-policy denies nested container operations. If you do not need nested podman,
-drop `label=disable` and put `:z` on the volume flags instead.
+policy denies nested container operations.
 
 Approach and much of the reasoning come from [Podman inside a
 container](https://www.redhat.com/en/blog/podman-inside-container) and
