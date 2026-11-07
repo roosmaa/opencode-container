@@ -46,7 +46,6 @@ then execs the server. A failing hook aborts the container. The bundled ones:
 - `20-skel.sh` — restores `~/.bashrc` and friends from `/etc/skel`, so
   customize your shell through `~/.bashrc.d/*.sh`, which survives
 - `30-bashrc.sh` — writes `~/.bashrc.d/mise.sh`, which puts mise on `$PATH`
-- `90-chown.sh` — normalises ownership of the home directory
 
 ## Nested podman
 
