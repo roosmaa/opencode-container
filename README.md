@@ -24,9 +24,7 @@ it on localhost only.
 
 The first start of a new home volume installs opencode with mise (~450 MB,
 roughly 15 s). Later starts are instant. Everything runs as the unprivileged
-`agent` user (uid 1000), which has passwordless sudo. If you keep SELinux
-enabled, drop `--security-opt label=disable` and add `:z` to the volume flags
-instead.
+`agent` user (uid 1000), which has passwordless sudo.
 
 ## Layout
 
@@ -49,11 +47,13 @@ then execs the server. A failing hook aborts the container. The bundled ones:
 
 ## Nested podman
 
-The image ships podman so the agent can run containers of its own, with a
-`/etc/containers/containers.conf` that runs inner containers in the outer
-namespaces (`netns`/`userns`/`ipcns`/`utsns`/`cgroupns` host, cgroups disabled,
-`crun`), which is why `--device /dev/fuse` and the `/var/tmp` volume are
-required.
+The image ships podman so the agent can run containers of its own. Inner
+containers run in the outer namespaces (`netns`/`userns`/`ipcns`/`utsns`/
+`cgroupns` host, cgroups disabled, `crun`) through the bundled
+`/etc/containers/containers.conf`, which is why `--device /dev/fuse`, the
+`/var/tmp` volume and `--security-opt label=disable` are all required — SELinux
+policy denies nested container operations. If you do not need nested podman,
+drop `label=disable` and put `:z` on the volume flags instead.
 
 Approach and much of the reasoning come from [Podman inside a
 container](https://www.redhat.com/en/blog/podman-inside-container) and
