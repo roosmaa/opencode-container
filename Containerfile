@@ -12,7 +12,7 @@ RUN dnf -y makecache \
   && dnf -y update \
   && dnf copr enable jdxcode/mise -y \
   && rpm --setcaps shadow-utils 2>/dev/null \
-  && dnf install -y podman procps-ng mise --exclude container-selinux \
+  && dnf install -y gcc podman procps-ng mise --exclude container-selinux \
   && dnf clean all
 
 COPY containers.conf /etc/containers/containers.conf
